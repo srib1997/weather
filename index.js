@@ -54,17 +54,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/forcast', (req, res) => {
-  const description2 = data2.rss.channel[0].item[0].description[0]
+  let description2 = data2.rss.channel[0].item[0].description[0]
+  description2 = description2.replace(/<br\/>/g, '')
+  description2 = description2.replace(/<br>/g, '')
 
-   const newResult2 = {
-     pubDate: data2.rss.channel[0].pubDate[0],
-     title: data2.rss.channel[0].item[0].title[0],
-     WeatherDate: description2.match(/預測於 (.*)/)[1],
-     WeatherForecast: description2.match(/天氣乾燥。(.*)/)[0],
-     WeatherDateTomorrow: description2.match(/預測於 (.*)/)[2]
-     }
+  const newResult2 = {
+    pubDate: data2.rss.channel[0].pubDate[0],
+    title: data2.rss.channel[0].item[0].title[0],
+    description: description2
+  }
   res.json(newResult2)
-}
-)
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
